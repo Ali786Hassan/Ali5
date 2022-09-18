@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { SafeAreaView , FlatList, StyleSheet,Image, Text, View, TouchableOpacity} from 'react-native';
 import colors from '../Assets/config/colors';
 import  BackIcon  from 'react-native-vector-icons/MaterialIcons';
+import { color } from 'react-native-reanimated';
 
 
 const Data=[
@@ -10,8 +11,6 @@ const Data=[
     id:1,
     username:'Akhtar',
     pic: require('../Assets/Images/men.png'),
-    
-    
   },
   {
     id:2,
@@ -98,7 +97,45 @@ function Test({navigation}) {
     const [isSelected, setSelected ]=useState(false);
     const [isSelected1, setSelected1 ]=useState(false)
     var [ isPress, setIsPress ] = React.useState(false);
-    
+    const [currentSelected, setCurrentSelected] = useState([0]);
+    const Test = ({ index}) => {
+      return (
+        <SafeAreaView>
+        <TouchableOpacity style={{
+          width:70, 
+          height:30, 
+          backgroundColor:
+             currentSelected == index ? colors.accentRed : colors.white, 
+          borderWidth:1,
+          borderColor:'#33cc33', 
+          borderRadius:15, 
+          top:-50, left:200,
+          marginLeft:10
+          }}
+          onPress={() => setCurrentSelected(index)}>
+      
+          <Text style={{ marginLeft:12,marginTop:4,
+            color:currentSelected == index ? colors.white : colors.black,
+            fontWeight:'bold'}}>
+              absent
+              </Text>
+
+      </TouchableOpacity>
+      <TouchableOpacity style={{
+         width:70, height:30, 
+         backgroundColor:currentSelected == index ? colors.accentRed : colors.white,  
+         borderWidth:1,
+         borderColor:'red', 
+         borderRadius:15, top:-50, left:200
+         }} 
+         onPress={() => setCurrentSelected(index)}> 
+            <Text style={{ marginLeft:10,marginTop:4,
+            color:currentSelected == index ? colors.white : colors.black,fontWeight:'bold'}}
+            >Present</Text>
+      </TouchableOpacity>
+      </SafeAreaView>
+      );
+  };
     return (
         <SafeAreaView style={{backgroundColor:'#ffffff'}}>
           <View>
@@ -113,31 +150,25 @@ function Test({navigation}) {
           </View>
           <View style={{width:410, height:1, backgroundColor:colors.gray, marginTop:10}}></View>
             <FlatList style={{}}
-        data={Data}
-        renderItem={({item}) =>(
-          
-            <View style={styles.container}>
+              data={Data}
+              renderItem={({item}) =>(
+              
+            <View style={{
+              flex: 1,
+              height:60,
+              marginTop: 8,
+              borderColor:'white'}}>
             <Text style={{fontSize:18,color:'black',left:65,top:35, fontFamily:'Roboto-Italic'}}>
                 {item.username}
             </Text>
             <Image style={{width:50, height:50, left:12,marginBottom:9}} source={item.pic}/>
             <View style={{width:410, height:1, backgroundColor:colors.gray}}></View>
             <View style={{flexDirection:'row'}}> 
-            <TouchableOpacity style={[isPress ? styles.absent : styles.present]}>
-                <Text style={{ marginLeft:10,marginTop:4,color:'white',fontWeight:'bold'}}>absent</Text>
-
-            </TouchableOpacity>
-            <TouchableOpacity style={[isPress ? styles.present : styles.absent]}>
-                  <Text style={{ marginLeft:10,marginTop:4,color:'white',fontWeight:'bold'}}>Present</Text>
-            </TouchableOpacity>
+            
             {/* <View style={{ marginTop:10,height:50,color:'black'}}></View> */}
             </View>
            
-            </View>
-           
-           
-           
-            
+            </View>        
     )}
         keyExtractor={item => item.id}
       />
@@ -145,24 +176,5 @@ function Test({navigation}) {
         </SafeAreaView>
         
     );
-}
-const styles = StyleSheet.create({
-  absent:{
-    width:70, 
-    height:30, backgroundColor:'#33cc33', borderWidth:1,
-               borderColor:'#33cc33', borderRadius:15, top:-50, left:200,
-               marginLeft:10
-  },
-  present:{
-    width:70, height:30, backgroundColor:colors.red, borderWidth:1,
-               borderColor:'red', borderRadius:15, top:-50, left:200
-  },
-    container:{
-    flex: 1,
-    height:60,
-    marginTop: 8,
-    borderColor:'white'
-},
-
-})
+};
 export default Test;
