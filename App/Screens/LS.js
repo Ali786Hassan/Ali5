@@ -1,9 +1,13 @@
-import React from 'react';
+import React ,{useState,useContext} from 'react';
 import colors from '../Assets/config/colors';
 import { View,Text,StyleSheet,TextInput, TouchableOpacity, StatusBar,Image} from 'react-native';
 import  AntDesign  from 'react-native-vector-icons/AntDesign';
+import {AuthContext} from '../../AuthProvider';
 
 function LS({navigation}) {
+    const [email, setEmail] = useState();
+    const [Password, setPassword] = useState();
+    const {login} = useContext(AuthContext);
     return (
         <View style={styles.container}>
             <Image style={styles.image}
@@ -22,17 +26,26 @@ function LS({navigation}) {
          <View style={styles.con}>
          <TextInput
          style={styles.input}
-         placeholder="@User name"
+         placeholder="Email"
+         onChangeText={(userEmail)=> setEmail(userEmail)}
+         iconType="user"
+         lableValue={email}
+         keyboardType='email-address'
+         autoCapitalize='none'
+         autoCorrect={false}
          />
          <TextInput
          style={styles.input1}
          placeholder="Password"
-         secureTextEntry
+         lableValue={Password}
+         onChangeText={(userPassword)=> setPassword(userPassword)}
+         iconType="lock"
+         secureTextEntry={true}
          />
         <TouchableOpacity onPress={()=>  navigation.navigate('Register')} >
          <Text style={{marginTop:-5,fontSize:17,marginLeft:180,color:colors.lightgray}}>Forgot password ?</Text>
         </TouchableOpacity>
-         <TouchableOpacity onPress={()=>  navigation.navigate('Dashboard')}
+         <TouchableOpacity onPress={()=> login(email,Password)}
          style={styles.btn}>
            <Text style={styles.text}>
              Login

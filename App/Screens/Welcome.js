@@ -14,7 +14,7 @@ function Welcome({navigation}) {
           source={require('../Assets/config/wl.png')}/>
           <Image style={styles.thank}
           source={require('../Assets/config/Thank.png')}/>
-          <TouchableOpacity onPress={()=>  navigation.navigate('LS')}>
+          <TouchableOpacity onPress={()=>  navigation.navigate('AccountScreen')}>
           <Image style={styles.btn}
           source={require('../Assets/config/arrow.png')}/>
           <AntDesign style={styles.Icon} 

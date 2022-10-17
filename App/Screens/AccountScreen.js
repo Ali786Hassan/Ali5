@@ -1,9 +1,13 @@
-import React from 'react';
+import React, { useContext, useState } from 'react';
 import colors from '../Assets/config/colors';
 import { View,Text,StyleSheet,TextInput, TouchableOpacity, StatusBar,Image} from 'react-native';
 import  AntDesign  from 'react-native-vector-icons/AntDesign';
-
-function AccountScreen({navigation}) {
+import {AuthContext} from '../../AuthProvider';
+const AccountScreen = ({navigation}) => {
+    const [email, setEmail] = useState();
+    const [Password, setPassword] = useState();
+    const [confirmPassword, setconfirmPassword] = useState();
+    const {register} = useContext(AuthContext);
     return (
         <View style={styles.container}>
             <Image style={styles.image}
@@ -21,28 +25,40 @@ function AccountScreen({navigation}) {
          <View style={styles.con}>
          <TextInput
          style={styles.input}
-         placeholder="@User name"
+         placeholder="Email"
+         onChangeText={(email)=> setEmail(email)}
+         iconType="user"
+         lableValue={email}
+         keyboardType='email-address'
+         autoCapitalize='none'
+         autoCorrect={false}
          placeholderTextColor={'#AAAAAA'}
          />
-         <TextInput
+         {/* <TextInput
          style={styles.input2}
          placeholder="Email"
          placeholderTextColor={'#AAAAAA'}
-         />
+         /> */}
          <TextInput
          style={styles.input1}
          placeholder="Password"
+         lableValue={Password}
+         onChangeText={(password)=> setPassword(password)}
+         iconType="lock"
          placeholderTextColor={'#AAAAAA'}
-         secureTextEntry
+         secureTextEntry={true}
          />
          <TextInput
          style={styles.input1}
-         placeholder="Re-Type Password"
-         secureTextEntry
+         placeholder="Confirm Password"
+         lableValue={confirmPassword}
+         onChangeText={(password)=> setconfirmPassword(password)}
+         iconType="lock"
+         secureTextEntry={true}
          />
          <Image style={styles.image4}
             source={require('../Assets/config/sig.png')}/>
-         <TouchableOpacity style={styles.btn} onPress={()=>  navigation.navigate('LS')}>
+         <TouchableOpacity style={styles.btn} onPress={()=> register(email,Password,navigation.navigate('Service'))}>
          <Text style={styles.text}>
              Sign up
            </Text>
